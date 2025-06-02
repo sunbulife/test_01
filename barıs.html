@@ -7,9 +7,10 @@
 </head>
 <style>
   body {
-    margin:0; padding:0;
-    height:100vh;
-    display:flex;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -18,40 +19,49 @@
     overflow: hidden;
     user-select: none;
     position: relative;
+    text-align: center;
   }
+
   h1 {
     font-size: 2.5rem;
     color: #e91e63;
     margin-bottom: 30px;
     z-index: 10;
     position: relative;
+    padding: 0 10px;
   }
+
   button {
     font-size: 1.8rem;
     padding: 15px 45px;
     margin: 0 20px;
-    border:none;
+    border: none;
     border-radius: 12px;
     cursor: pointer;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     transition: background-color 0.3s ease;
     position: absolute;
     z-index: 10;
+    max-width: 90%;
+    word-wrap: break-word;
   }
+
   #yes {
     background-color: #4caf50;
     color: white;
     left: 40%;
     top: 60%;
-    position: relative; /* Başlangıçta normal konumda */
+    position: relative;
   }
+
   #no {
     background-color: #f44336;
     color: white;
     left: 60%;
     top: 60%;
-    position: absolute; /* Hareket için absolute */
+    position: absolute;
   }
+
   .heart {
     position: fixed;
     font-size: 20px;
@@ -60,6 +70,7 @@
     z-index: 5;
     will-change: transform;
   }
+
   #message {
     margin-top: 40px;
     font-size: 1.8rem;
@@ -67,8 +78,27 @@
     display: none;
     z-index: 10;
     position: relative;
+    padding: 0 10px;
+  }
+
+  @media (max-width: 600px) {
+    h1 {
+      font-size: 1.8rem;
+    }
+
+    button {
+      font-size: 1.3rem;
+      padding: 12px 25px;
+    }
+
+    #message {
+      font-size: 1.4rem;
+    }
   }
 </style>
+
+
+
 </head>
 <body>
 
