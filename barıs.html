@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Özür Dilerim</title>
+<style>
+  body {
+    margin:0; padding:0;
+    height:100vh;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to bottom right, #ffe4ec, #ffe4b5);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
+    user-select: none;
+    position: relative;
+  }
+  h1 {
+    font-size: 2.5rem;
+    color: #e91e63;
+    margin-bottom: 30px;
+    z-index: 10;
+    position: relative;
+  }
+  button {
+    font-size: 1.8rem;
+    padding: 15px 45px;
+    margin: 0 20px;
+    border:none;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transition: background-color 0.3s ease;
+    position: absolute;
+    z-index: 10;
+  }
+  #yes {
+    background-color: #4caf50;
+    color: white;
+    left: 40%;
+    top: 60%;
+    position: relative; /* Başlangıçta normal konumda */
+  }
+  #no {
+    background-color: #f44336;
+    color: white;
+    left: 60%;
+    top: 60%;
+    position: absolute; /* Hareket için absolute */
+  }
+  .heart {
+    position: fixed;
+    font-size: 20px;
+    pointer-events: none;
+    user-select: none;
+    z-index: 5;
+    will-change: transform;
+  }
+  #message {
+    margin-top: 40px;
+    font-size: 1.8rem;
+    color: #000101;
+    display: none;
+    z-index: 10;
+    position: relative;
+  }
+</style>
+</head>
+<body>
+
+<h1>Balım Özür Dilerim, Beni Affedermisin? 💖</h1>
+
+<button id="yes" style="position: relative; left:auto; top:auto;">Evet</button>
+<button id="no">Hayır</button>
+
+<div id="message">Seni Çok Seviyorummmmmmmmm 😘💛</div>
+
+<script>
+  const yesBtn = document.getElementById('yes');
+  const noBtn = document.getElementById('no');
+  const message = document.getElementById('message');
+
+  // Butonu ekrandan tamamen çıkarmadan rastgele pozisyona taşı
+  function moveNoButton() {
+    const btnWidth = noBtn.offsetWidth;
+    const btnHeight = noBtn.offsetHeight;
+    const padding = 20; // Kenarlara biraz boşluk
+
+    const maxX = window.innerWidth - btnWidth - padding;
+    const maxY = window.innerHeight - btnHeight - padding;
+
+    let newX, newY;
+
+    // Buton çok köşeye sıkışınca başka yere gitsin
+    do {
+      newX = Math.random() * maxX + padding;
+      newY = Math.random() * maxY + padding;
+      // Uzaklık kontrolü - mevcut konuma çok yakın olmasın
+    } while (distance(newX, newY, noBtn.offsetLeft, noBtn.offsetTop) < 100);
+
+    noBtn.style.left = newX + 'px';
+    noBtn.style.top = newY + 'px';
+
+    createHearts(newX + btnWidth/2, newY + btnHeight/2);
+  }
+
+  // İki nokta arası mesafe hesapla
+  function distance(x1, y1, x2, y2) {
+    return Math.sqrt((x2 - x1)**2 + (y2 - y1)**2);
+  }
+
+  // Kalp yarat ve ekranda hareket ettir
+  function createHearts(x, y) {
+    for(let i=0; i<10; i++) {  // 20 tane kalp
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.textContent = '💖';
+  
+      heart.style.left = (x + (Math.random()*60 - 30)) + 'px';
+      heart.style.top = (y + (Math.random()*60 - 30)) + 'px';
+      heart.style.fontSize = (19 + Math.random()*19) + 'px';
+      document.body.appendChild(heart);
+      hearts.push({
+        el: heart,
+        x: parseFloat(heart.style.left),
+        y: parseFloat(heart.style.top),
+        dx: (Math.random()*2 - 1) * 0.5,
+        dy: (Math.random()*2 - 1) * 0.5,
+      });
+    }
+  }
+
+  // Kalplerin hareketi için array ve animasyon fonksiyonu
+  const hearts = [];
+  function animateHearts() {
+    hearts.forEach(h => {
+      h.x += h.dx;
+      h.y += h.dy;
+
+      // Ekran sınırında sekme
+      if (h.x < 0 || h.x > window.innerWidth - 70) h.dx = -h.dx;
+      if (h.y < 0 || h.y > window.innerHeight - 70) h.dy = -h.dy;
+
+      h.el.style.left = h.x + 'px';
+      h.el.style.top = h.y + 'px';
+    });
+    requestAnimationFrame(animateHearts);
+  }
+  animateHearts();
+
+  // Fare veya dokunmada kaçma olayları
+  noBtn.addEventListener('mouseenter', moveNoButton);
+  noBtn.addEventListener('touchstart', e => {
+    e.preventDefault();
+    moveNoButton();
+  });
+
+  // Evet tıklanınca mesaj göster, butonları gizle
+  yesBtn.addEventListener('click', () => {
+    yesBtn.style.display = 'none';
+    noBtn.style.display = 'none';
+    message.style.display = 'block';
+  });
+
+  // Sayfa yüklendiğinde hayır butonu uygun yerde başlasın
+  window.addEventListener('load', () => {
+    noBtn.style.left = '60%';
+    noBtn.style.top = '53%';
+    noBtn.style.position = 'absolute';
+  });
+</script>
+
+</body>
+</html>
